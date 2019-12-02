@@ -69,7 +69,9 @@ GET http://localhost:8080/crawlAndGetToken?url=https://dzone.com/articles/asynch
 1575268560621
 
 #### 2) Crawl Result
-The **tokenId** parameter is the same as the one coming in the response of /crawlAndGetToken previously.
+The **tokenId** parameter is the same as the one coming in the response of /crawlAndGetToken previously. 
+
+Note: Don't call this API immediately after submitting the request using previous API. Since this returns the actual crawling result which can be obtained only after the crawling process is completed, and it takes a fair bit of time in completion of such a process, call it after sometime. For confirmation on whether this is going to return the result or not, see whether there is a document with "tokenId" field as the intended value in the "singleCrawlRequestData" collection in the "crawlerData" database using Robomongo or any other mongo client.  
 
 ```sh 
 GET http://localhost:8080/crawlResult?tokenId=1575268560621
