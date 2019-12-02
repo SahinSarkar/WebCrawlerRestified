@@ -14,14 +14,14 @@ public class WebCrawlController {
 	@Autowired
 	private WebCrawlService service;
 
-	@RequestMapping("crawl")
-	public long showData(@RequestParam String url, @RequestParam int depth) {
+	@RequestMapping("crawlAndGetToken")
+	public long crawlAndGetToken(@RequestParam String url, @RequestParam int depth) {
 		long requestToken = service.returnAcknowledgementToken(url, depth);
 		return requestToken;
 	}
 
-	@RequestMapping("crawlResults")
-	public WebCrawlResult showData(@RequestParam long tokenId) {
+	@RequestMapping("crawlResult")
+	public WebCrawlResult getCrawlResult(@RequestParam long tokenId) {
 		WebCrawlResult crawlResult = service.getCrawlResults(tokenId);
 		return crawlResult;
 	}
