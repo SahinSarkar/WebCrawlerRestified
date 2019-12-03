@@ -1,8 +1,10 @@
 package com.example.WebCrawler.domain;
 
 import java.io.Serializable;
-import java.util.Random;
 
+import org.apache.commons.rng.UniformRandomProvider;
+import org.apache.commons.rng.simple.RandomSource;
+import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -72,14 +74,11 @@ public class CrawlRequest implements Serializable {
 	}
 
 	private String makeTokenId() {
-		String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-		StringBuilder salt = new StringBuilder();
-		Random rnd = new Random();
-		while (salt.length() < LENGTH_OF_RANDOM_TOKEN) {
-			int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-			salt.append(SALTCHARS.charAt(index));
-		}
-		String saltStr = salt.toString();
-		return saltStr;
+
+		UniformRandomProvider rng = RandomSource.create(RandomSource.MT);
+		RandomStringGenerator generator = new RandomStringGenerator.Builder().withinRange('a', 'z')
+				.usingRandom(rng::nextInt).build();
+		String tokenId = generator.generate(LENGTH_OF_RANDOM_TOKEN);
+		return tokenId;
 	}
 }
