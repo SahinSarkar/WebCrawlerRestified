@@ -15,19 +15,19 @@ public class WebCrawlController {
 	private WebCrawlService service;
 
 	@RequestMapping("crawlAndGetToken")
-	public long crawlAndGetToken(@RequestParam String url, @RequestParam int depth) {
-		long requestToken = service.returnAcknowledgementToken(url, depth);
+	public String crawlAndGetToken(@RequestParam String url, @RequestParam int depth) {
+		String requestToken = service.returnAcknowledgementToken(url, depth);
 		return requestToken;
 	}
 
 	@RequestMapping("crawlResult")
-	public WebCrawlResult getCrawlResult(@RequestParam long tokenId) {
+	public WebCrawlResult getCrawlResult(@RequestParam String tokenId) {
 		WebCrawlResult crawlResult = service.getCrawlResults(tokenId);
 		return crawlResult;
 	}
 
 	@RequestMapping("requestStatus")
-	public String showRequestStatus(@RequestParam long tokenId) {
+	public String showRequestStatus(@RequestParam String tokenId) {
 		String requestStatus = service.getRequestStatus(tokenId);
 		return requestStatus;
 	}

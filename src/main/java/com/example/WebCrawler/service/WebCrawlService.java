@@ -24,23 +24,23 @@ public class WebCrawlService {
 	@Autowired
 	private CrawlResultsRepository crawlResultsRepository;
 
-	public long returnAcknowledgementToken(String URL, int depth) {
-		long requestToken;
+	public String returnAcknowledgementToken(String URL, int depth) {
+		String requestToken;
 		CrawlRequest request = new CrawlRequest(URL, depth);
 		request.setStatus(Status.SUBMITTED);
-		requestToken = Long.parseLong(request.getTokenId());
+		requestToken = request.getTokenId();
 		crawlRequestRepository.save(request);
 		rabbitMqMsgProducer.send(request);
 		return requestToken;
 	}
 	
-	public WebCrawlResult getCrawlResults(long tokenId) {
-		Optional<WebCrawlResult> result = crawlResultsRepository.findById(Long.toString(tokenId));
+	public WebCrawlResult getCrawlResults(String tokenId) {
+		Optional<WebCrawlResult> result = crawlResultsRepository.findById(tokenId);
 		return result.get();
 	}
 
-	public String getRequestStatus(long tokenId) {
-		Optional<CrawlRequest> requestOpt = crawlRequestRepository.findById(Long.toString(tokenId));
+	public String getRequestStatus(String tokenId) {
+		Optional<CrawlRequest> requestOpt = crawlRequestRepository.findById(tokenId);
 		CrawlRequest request = requestOpt.get();
 		return request.getStatus().toString();
 	}

@@ -1,6 +1,7 @@
 package com.example.WebCrawler.domain;
 
 import java.io.Serializable;
+import java.util.Random;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,6 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class CrawlRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final int LENGTH_OF_RANDOM_TOKEN = 20;
 
 	@Id
 	private String tokenId;
@@ -25,7 +28,7 @@ public class CrawlRequest implements Serializable {
 		super();
 		this.url = url;
 		this.depth = depth;
-		this.tokenId = Long.toString(System.currentTimeMillis());
+		this.tokenId = makeTokenId();
 	}
 
 	public CrawlRequest() {
@@ -68,4 +71,15 @@ public class CrawlRequest implements Serializable {
 		return "CrawlRequest [tokenId=" + tokenId + ", url=" + url + ", depth=" + depth + ", status=" + status + "]";
 	}
 
+	private String makeTokenId() {
+		String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		StringBuilder salt = new StringBuilder();
+		Random rnd = new Random();
+		while (salt.length() < LENGTH_OF_RANDOM_TOKEN) {
+			int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+			salt.append(SALTCHARS.charAt(index));
+		}
+		String saltStr = salt.toString();
+		return saltStr;
+	}
 }
