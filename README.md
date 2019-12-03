@@ -35,21 +35,16 @@ $ cd WebCrawlerRestified
 $ mvnw clean install
 ```
 
-6) Now we will run two instances of the built jar, one without any arguments like
+6) Now we will start our application from the built jar
 ```sh
 $ java -jar target/WebCrawlerRestified-0.0.1-SNAPSHOT.jar
 ```
 
-7) We start another instance of the same jar but on a different port and the "receiver" profile configured.
-```sh
-$ java -jar target/WebCrawlerRestified-0.0.1-SNAPSHOT.jar --spring.profiles.active=receiver --server.port=8082
-```
-
-8) The application is up and running.
+7) The application is up and running.
 
 ## Test the application
 
-This application exposes 3 REST APIs which can be tested using postman. All of the APIs are hosted on the first application instance that we run previously having default port 8080. So the prefix for the APIs would look like http://<hostname>:8080. Of course, when running locally, the <hostname> would be "localhost". The APIs are shown below.
+This application exposes 3 REST APIs which can be tested using postman. The prefix for the APIs would look like http://<hostname>:8080. Of course, when running locally, the <hostname> would be "localhost". The APIs are shown below.
 
 | API | Path | HTTP Method | Parameters | Result | Side-effect |
 | ------ | ------ | ------ | ------ | ------ | ------ |
