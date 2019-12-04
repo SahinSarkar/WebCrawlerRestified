@@ -42,7 +42,7 @@ public class WebCrawlService {
 	public String getRequestStatus(String tokenId) {
 		Optional<CrawlRequest> requestOpt = crawlRequestRepository.findById(tokenId);
 		CrawlRequest request = requestOpt.get();
-		return request.getStatus().toString();
+		return request.getStatus().getDisplayString();
 	}
 
 }

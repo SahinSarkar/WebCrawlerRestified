@@ -1,6 +1,8 @@
 package com.example.WebCrawler.domain;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.rng.UniformRandomProvider;
 import org.apache.commons.rng.simple.RandomSource;
@@ -21,10 +23,33 @@ public class CrawlRequest implements Serializable {
 	private int depth;
 
 	public enum Status {
-		SUBMITTED, INPROCESS, PROCESSED, FAILED
+		SUBMITTED("Submitted"), INPROCESS("In-process"), PROCESSED("Processed"), FAILED("Failed");
+		
+		private final String displayString;
+		
+		Status(String displayString){
+			this.displayString = displayString;
+		}
+		
+		public String getDisplayString() {
+			return this.displayString;
+		}
+		
+		private static final Map<String, Status> statusMap;
+		
+		static {
+			statusMap = new HashMap<>();
+			for(Status status : Status.values()) {
+				statusMap.put(status.displayString, status);
+			}
+		}
+		
+		public static Status findByDisplayString(String dispStr) {
+			return statusMap.get(dispStr);
+		}
 	};
 
-	private Status status;
+	private String status;
 
 	public CrawlRequest(String url, int depth) {
 		super();
@@ -61,11 +86,11 @@ public class CrawlRequest implements Serializable {
 	}
 
 	public Status getStatus() {
-		return status;
+		return Status.findByDisplayString(status);
 	}
 
 	public void setStatus(Status status) {
-		this.status = status;
+		this.status = status.getDisplayString();
 	}
 
 	@Override
