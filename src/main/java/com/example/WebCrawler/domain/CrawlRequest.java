@@ -14,40 +14,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class CrawlRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
 	private static final int LENGTH_OF_RANDOM_TOKEN = 20;
 
 	@Id
 	private String tokenId;
 	private String url;
 	private int depth;
-
-	public enum Status {
-		SUBMITTED("Submitted"), INPROCESS("In-process"), PROCESSED("Processed"), FAILED("Failed");
-		
-		private final String displayString;
-		
-		Status(String displayString){
-			this.displayString = displayString;
-		}
-		
-		public String getDisplayString() {
-			return this.displayString;
-		}
-		
-		private static final Map<String, Status> statusMap;
-		
-		static {
-			statusMap = new HashMap<>();
-			for(Status status : Status.values()) {
-				statusMap.put(status.displayString, status);
-			}
-		}
-		
-		public static Status findByDisplayString(String dispStr) {
-			return statusMap.get(dispStr);
-		}
-	};
 
 	private String status;
 
@@ -56,9 +28,6 @@ public class CrawlRequest implements Serializable {
 		this.url = url;
 		this.depth = depth;
 		this.tokenId = makeTokenId();
-	}
-
-	public CrawlRequest() {
 	}
 
 	public String getUrl() {
@@ -106,4 +75,31 @@ public class CrawlRequest implements Serializable {
 		String tokenId = generator.generate(LENGTH_OF_RANDOM_TOKEN);
 		return tokenId;
 	}
+
+	public enum Status {
+		SUBMITTED("Submitted"), INPROCESS("In-process"), PROCESSED("Processed"), FAILED("Failed");
+		
+		private final String displayString;
+		
+		private Status(String displayString){
+			this.displayString = displayString;
+		}
+		
+		public String getDisplayString() {
+			return this.displayString;
+		}
+		
+		private static final Map<String, Status> statusMap;
+		
+		static {
+			statusMap = new HashMap<>();
+			for(Status status : Status.values()) {
+				statusMap.put(status.displayString, status);
+			}
+		}
+		
+		public static Status findByDisplayString(String dispStr) {
+			return statusMap.get(dispStr);
+		}
+	};
 }
