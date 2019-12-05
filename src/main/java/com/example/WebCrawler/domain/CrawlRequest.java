@@ -24,7 +24,6 @@ public class CrawlRequest implements Serializable {
 	private String status;
 
 	public CrawlRequest(String url, int depth) {
-		super();
 		this.url = url;
 		this.depth = depth;
 		this.tokenId = makeTokenId();

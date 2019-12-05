@@ -13,22 +13,22 @@ public class WebCrawlResult {
 	
 	@Id
 	private String tokenId;
-	public String getTokenId() {
-		return tokenId;
-	}
-	public void setTokenId(String id) {
-		this.tokenId = id;
-	}
 
 	private String totalLinks;
 	private String totalImages;
 	private List<PageDetail> details;
 	
 	public WebCrawlResult(String totalLinks, String totalImages, List<PageDetail> details) {
-		super();
 		this.totalLinks = totalLinks;
 		this.totalImages = totalImages;
 		this.details = details;
+	}
+
+	public String getTokenId() {
+		return tokenId;
+	}
+	public void setTokenId(String id) {
+		this.tokenId = id;
 	}
 	public String getTotalLinks() {
 		return totalLinks;

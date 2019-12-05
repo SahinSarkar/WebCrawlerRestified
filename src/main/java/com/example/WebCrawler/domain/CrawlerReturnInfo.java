@@ -9,7 +9,6 @@ public class CrawlerReturnInfo {
 	private List<PageDetail> pagesDetailList;
 
 	public CrawlerReturnInfo(int linksTraversed, int imagesSeen, List<PageDetail> pagesDetailList) {
-		super();
 		this.linksTraversed = linksTraversed;
 		this.imagesSeen = imagesSeen;
 		this.pagesDetailList = pagesDetailList;
@@ -40,6 +39,12 @@ public class CrawlerReturnInfo {
 
 	public void setPagesDetailList(List<PageDetail> pagesDetailList) {
 		this.pagesDetailList = pagesDetailList;
+	}
+
+	@Override
+	public String toString() {
+		return "CrawlerReturnInfo [linksTraversed=" + linksTraversed + ", imagesSeen=" + imagesSeen
+				+ ", pagesDetailList=" + pagesDetailList + "]";
 	}
 
 }

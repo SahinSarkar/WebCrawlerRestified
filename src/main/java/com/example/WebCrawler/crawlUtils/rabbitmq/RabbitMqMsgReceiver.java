@@ -1,5 +1,7 @@
 package com.example.WebCrawler.crawlUtils.rabbitmq;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class RabbitMqMsgReceiver {
     
     @Autowired
     private CrawlRequestRepository crawlRequestRepository;
+    
+    private Logger logger = LogManager.getLogger(RabbitMqMsgReceiver.class);
 
     public RabbitMqMsgReceiver(int i) {
         this.instance = i;
@@ -33,11 +37,14 @@ public class RabbitMqMsgReceiver {
     @RabbitHandler
     public void receive(CrawlRequest request) throws InterruptedException {
     	WebCrawlResult crawlResults = null;
-    	System.out.println("crawlrequest reached receiver = " + instance + " " + request);
+    	logger.info("crawlrequest reached receiver = " + instance + ". Request is = " + request);
     	try {
     		request.setStatus(Status.INPROCESS);
     		persistChangedRequest(request);
+    		
+    		logger.info("starting crawling process for request : " + request);
     		crawlResults = new CrawlerControllerConfigurer().configureAndStartCrawling(request, numberOfParallelCrawlersForEachCrawlRequest);
+    		logger.info("completed crawling process for request : " + request);
     		request.setStatus(Status.PROCESSED);
     		persistChangedRequest(request);
 		} catch (Exception e) {
@@ -46,10 +53,14 @@ public class RabbitMqMsgReceiver {
 			e.printStackTrace();
 		}
     	
-		crawlResultsRepository.save(crawlResults);
+		persistCrawlResults(crawlResults);
     }
     
-    private void persistChangedRequest(CrawlRequest request) {
+    private void persistCrawlResults(WebCrawlResult crawlResults) {
+		crawlResultsRepository.save(crawlResults);
+	}
+
+	private void persistChangedRequest(CrawlRequest request) {
     	crawlRequestRepository.save(request);
     }
 }

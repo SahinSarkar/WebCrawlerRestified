@@ -1,5 +1,7 @@
 package com.example.WebCrawler.crawlUtils.rabbitmq;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,11 @@ public class RabbitMqMsgProducer {
     @Autowired
     private Queue queue;
     
+    private Logger logger = LogManager.getLogger(RabbitMqMsgProducer.class);
+    
     public void send(CrawlRequest crawlRequest) {
-    	System.out.println("added crawlrequest to queue = " + crawlRequest);
+    	logger.info("adding crawlrequest to queue = " + crawlRequest);
 		template.convertAndSend(queue.getName(), crawlRequest);
+		logger.info("added crawlrequest to queue = " + crawlRequest);
     }
 }

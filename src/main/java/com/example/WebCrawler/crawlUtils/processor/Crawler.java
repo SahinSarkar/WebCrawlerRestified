@@ -63,6 +63,7 @@ public class Crawler extends WebCrawler{
     	returnInfo.setLinksTraversed(linksTraversed);
     	returnInfo.setImagesSeen(imagesSeen);
     	returnInfo.setPagesDetailList(pageDetails);
+    	logger.info("setting local data for crawler instance = " + getMyId() + ". Local data is = " + returnInfo);
     }
 
 	
