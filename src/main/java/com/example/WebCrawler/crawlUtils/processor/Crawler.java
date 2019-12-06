@@ -3,6 +3,8 @@ package com.example.WebCrawler.crawlUtils.processor;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -27,6 +29,8 @@ public class Crawler extends WebCrawler{
     public boolean shouldVisit(Page referringPage, WebURL url) {
         return true;
     }
+	
+	private static final Logger logger = LogManager.getLogger(Crawler.class);
 
     /**
      * This function is called when a page is fetched and ready
@@ -60,9 +64,9 @@ public class Crawler extends WebCrawler{
     
     @Override
     public void onBeforeExit() {
-    	returnInfo.setLinksTraversed(linksTraversed);
-    	returnInfo.setImagesSeen(imagesSeen);
-    	returnInfo.setPagesDetailList(pageDetails);
+    	returnInfo.setTotalLinks(linksTraversed);
+    	returnInfo.setTotalImages(imagesSeen);
+    	returnInfo.setDetails(pageDetails);
     	logger.info("setting local data for crawler instance = " + getMyId() + ". Local data is = " + returnInfo);
     }
 

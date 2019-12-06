@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.WebCrawler.crawlUtils.rabbitmq.RabbitMqMsgProducer;
 import com.example.WebCrawler.domain.CrawlRequest;
 import com.example.WebCrawler.domain.CrawlRequest.Status;
-import com.example.WebCrawler.domain.WebCrawlResult;
+import com.example.WebCrawler.domain.CrawlerReturnInfo;
 import com.example.WebCrawler.repository.CrawlRequestRepository;
 import com.example.WebCrawler.repository.CrawlResultsRepository;
 
@@ -42,8 +42,8 @@ public class WebCrawlService {
 		return requestToken;
 	}
 	
-	public WebCrawlResult getCrawlResults(String tokenId) {
-		Optional<WebCrawlResult> result = crawlResultsRepository.findById(tokenId);
+	public CrawlerReturnInfo getCrawlResults(String tokenId) {
+		Optional<CrawlerReturnInfo> result = crawlResultsRepository.findById(tokenId);
 		logger.info("obtained crawlResult for tokenId = " + tokenId);
 		logger.info("crawlResult obtained is = " + result.get());
 		return result.get();

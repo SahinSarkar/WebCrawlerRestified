@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import com.example.WebCrawler.domain.CrawlRequest;
 import com.example.WebCrawler.domain.CrawlerReturnInfo;
 import com.example.WebCrawler.domain.PageDetail;
-import com.example.WebCrawler.domain.WebCrawlResult;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -21,7 +20,7 @@ public class CrawlerControllerConfigurer {
 	
 	private static final Logger logger = LogManager.getLogger(CrawlerControllerConfigurer.class);
 
-	public WebCrawlResult configureAndStartCrawling(CrawlRequest crawlRequest, int numberOfCrawlers) throws Exception {
+	public CrawlerReturnInfo configureAndStartCrawling(CrawlRequest crawlRequest, int numberOfCrawlers) throws Exception {
 		logger.info("starting to configure Crawler controller for request = " + crawlRequest);
 		CrawlController controller;
 		String crawlStorageFolder = "/data/crawl/root/crawlRequest" + crawlRequest.getTokenId();
@@ -45,27 +44,27 @@ public class CrawlerControllerConfigurer {
 		controller.start(factory, numberOfCrawlers);
 
 		logger.info("********blocking crawl process ends****** \nfor request = " + crawlRequest);
-		WebCrawlResult crawlResult = setDomainInfoFromAllCrawlers(controller);
+		CrawlerReturnInfo crawlResult = setDomainInfoFromAllCrawlers(controller);
 		crawlResult.setTokenId(crawlRequest.getTokenId());
 		logger.info("returning crawl result = " + crawlRequest);
 		return crawlResult;
 	}
 
-	public WebCrawlResult setDomainInfoFromAllCrawlers(CrawlController controller) {
+	public CrawlerReturnInfo setDomainInfoFromAllCrawlers(CrawlController controller) {
 		logger.info("aggregating local data from all crawlers");
-		WebCrawlResult domainInfoToReturn = new WebCrawlResult();
+		CrawlerReturnInfo domainInfoToReturn = new CrawlerReturnInfo();
 		int totalLinks = 0;
 		int totalImages = 0;
 		List<PageDetail> pageDetailsOfEveryPageTraversed = new ArrayList<>();
 		for (Object domainInfo : controller.getCrawlersLocalData()) {
 			CrawlerReturnInfo info = (CrawlerReturnInfo) domainInfo;
-			totalImages += info.getImagesSeen();
-			totalLinks += info.getLinksTraversed();
+			totalImages += info.getTotalImages();
+			totalLinks += info.getTotalLinks();
 			
-			pageDetailsOfEveryPageTraversed.addAll(info.getPagesDetailList());
+			pageDetailsOfEveryPageTraversed.addAll(info.getDetails());
 		}
-		domainInfoToReturn.setTotalImages(totalImages + "");
-		domainInfoToReturn.setTotalLinks(totalLinks + "");
+		domainInfoToReturn.setTotalImages(totalImages);
+		domainInfoToReturn.setTotalLinks(totalLinks);
 		domainInfoToReturn.setDetails(pageDetailsOfEveryPageTraversed);
 
 		logger.info("collected and aggregated data from all crawlers is = " + domainInfoToReturn);

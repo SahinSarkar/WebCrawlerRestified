@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.WebCrawler.domain.WebCrawlResult;
+import com.example.WebCrawler.domain.CrawlerReturnInfo;
 import com.example.WebCrawler.service.WebCrawlService;
 
 @RestController
@@ -27,9 +27,9 @@ public class WebCrawlController {
 	}
 
 	@RequestMapping("crawlResult")
-	public WebCrawlResult getCrawlResult(@RequestParam String tokenId) {
+	public CrawlerReturnInfo getCrawlResult(@RequestParam String tokenId) {
 		logger.info("got request GET on path /crawlResult. Request fields are = tokenId:" + tokenId);
-		WebCrawlResult crawlResult = service.getCrawlResults(tokenId);
+		CrawlerReturnInfo crawlResult = service.getCrawlResults(tokenId);
 		logger.info("crawl result being sent for the accepted request is = " + crawlResult);
 		return crawlResult;
 	}

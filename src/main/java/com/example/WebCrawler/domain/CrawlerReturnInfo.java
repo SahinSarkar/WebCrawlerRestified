@@ -2,49 +2,54 @@ package com.example.WebCrawler.domain;
 
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "singleCrawlRequestData")
 public class CrawlerReturnInfo {
 
-	private int linksTraversed;
-	private int imagesSeen;
-	private List<PageDetail> pagesDetailList;
+	@Id
+	private String tokenId;
+	private int totalLinks;
+	private int totalImages;
+	private List<PageDetail> details;
 
-	public CrawlerReturnInfo(int linksTraversed, int imagesSeen, List<PageDetail> pagesDetailList) {
-		this.linksTraversed = linksTraversed;
-		this.imagesSeen = imagesSeen;
-		this.pagesDetailList = pagesDetailList;
+	public String getTokenId() {
+		return tokenId;
 	}
 
-	public int getLinksTraversed() {
-		return linksTraversed;
+	public void setTokenId(String tokenId) {
+		this.tokenId = tokenId;
 	}
 
-	public void setLinksTraversed(int linksTraversed) {
-		this.linksTraversed = linksTraversed;
+	public int getTotalLinks() {
+		return totalLinks;
 	}
 
-	public int getImagesSeen() {
-		return imagesSeen;
+	public void setTotalLinks(int totalLinks) {
+		this.totalLinks = totalLinks;
 	}
 
-	public CrawlerReturnInfo() {
+	public int getTotalImages() {
+		return totalImages;
 	}
 
-	public void setImagesSeen(int imagesSeen) {
-		this.imagesSeen = imagesSeen;
+	public void setTotalImages(int totalImages) {
+		this.totalImages = totalImages;
 	}
 
-	public List<PageDetail> getPagesDetailList() {
-		return pagesDetailList;
+	public List<PageDetail> getDetails() {
+		return details;
 	}
 
-	public void setPagesDetailList(List<PageDetail> pagesDetailList) {
-		this.pagesDetailList = pagesDetailList;
+	public void setDetails(List<PageDetail> details) {
+		this.details = details;
 	}
 
 	@Override
 	public String toString() {
-		return "CrawlerReturnInfo [linksTraversed=" + linksTraversed + ", imagesSeen=" + imagesSeen
-				+ ", pagesDetailList=" + pagesDetailList + "]";
+		return "CrawlerReturnInfo [tokenId=" + tokenId + ", totalLinks=" + totalLinks + ", totalImages=" + totalImages
+				+ ", details=" + details + "]";
 	}
 
 }

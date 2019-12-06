@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import com.example.WebCrawler.crawlUtils.processor.CrawlerControllerConfigurer;
 import com.example.WebCrawler.domain.CrawlRequest;
 import com.example.WebCrawler.domain.CrawlRequest.Status;
-import com.example.WebCrawler.domain.WebCrawlResult;
+import com.example.WebCrawler.domain.CrawlerReturnInfo;
 import com.example.WebCrawler.repository.CrawlRequestRepository;
 import com.example.WebCrawler.repository.CrawlResultsRepository;
 
@@ -36,7 +36,7 @@ public class RabbitMqMsgReceiver {
 
     @RabbitHandler
     public void receive(CrawlRequest request) throws InterruptedException {
-    	WebCrawlResult crawlResults = null;
+    	CrawlerReturnInfo crawlResults = null;
     	logger.info("crawlrequest reached receiver = " + instance + ". Request is = " + request);
     	try {
     		request.setStatus(Status.INPROCESS);
@@ -56,7 +56,7 @@ public class RabbitMqMsgReceiver {
 		persistCrawlResults(crawlResults);
     }
     
-    private void persistCrawlResults(WebCrawlResult crawlResults) {
+    private void persistCrawlResults(CrawlerReturnInfo crawlResults) {
 		crawlResultsRepository.save(crawlResults);
 	}
 
