@@ -1,8 +1,11 @@
-package com.example.WebCrawler.crawlUtils.rabbitmq;
+package com.example.WebCrawler.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.example.WebCrawler.crawlUtils.rabbitmq.RabbitMqMsgProducer;
+import com.example.WebCrawler.crawlUtils.rabbitmq.RabbitMqMsgReceiver;
 
 @Configuration
 public class RabbitMqConfig {
